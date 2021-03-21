@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     settings.setValue(SETTING_BROWSER, browser);
     qDebug() << "settings file: " << settings.fileName() << settings.value(SETTING_BROWSER, "NO BROWSER SET");
 
-    connect(qApp->clipboard(), &QClipboard::dataChanged, this, &MainWindow::onDataChanged);
+    connect(qApp->clipboard(), &QClipboard::dataChanged, this, &MainWindow::onClipboardDataChanged);
 
     QAction* pauseAction = new QAction(MENU_PAUSE, this);
     connect(pauseAction, &QAction::triggered, this, &MainWindow::pause);
@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     systemTrayIcon->show();
 }
 
-void MainWindow::onDataChanged()
+void MainWindow::onClipboardDataChanged()
 {
     if (!enabled) {
         return;
