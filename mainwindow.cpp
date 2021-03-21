@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QStandardPaths>
 #include <QSystemTrayIcon>
@@ -37,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     , disabledIcon(QIcon("://disabled.ico"))
 {
     settings.setValue(SETTING_BROWSER, browser);
-    qDebug() << "settings file: " << settings.fileName() << settings.value(SETTING_BROWSER, "NO BROWSER SET");
+    settings.setValue(SETTING_BROWSERPARAMS, browserParams);
+    settings.setValue(SETTING_ENABLED, enabled);
 
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &MainWindow::onClipboardDataChanged);
 
@@ -107,6 +109,8 @@ void MainWindow::openConfigFile()
 {
     QUrl url = QUrl::fromLocalFile(settings.fileName());
     QDesktopServices::openUrl(url);
+
+    QMessageBox(QMessageBox::Information, qAppName(), tr("For config changes to take effect, restart of the application is required")).exec();
 }
 
 void MainWindow::exit()
