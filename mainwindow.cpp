@@ -86,6 +86,10 @@ void MainWindow::onClipboardDataChanged()
         return;
     }
 
+    if (url.isLocalFile()) {
+        return;
+    }
+
     QProcess::startDetached(browser, QStringList{ browserParams, url.toString() });
 }
 
